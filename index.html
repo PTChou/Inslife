@@ -1,0 +1,665 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>壽險熱賣商品比較表</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;800&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 一張經紀人桌上的比價底稿 — 頂部市場摘要 → 分頁（熱銷比較 / 新上市商品庫 / 各公司利率）→ 可勾選比較抽屜 */
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#14201C; --muted:#5B6964; --rule:#D9E0DD;
+  --accent:#0D6B58; --accent-soft:#DCEFE9; --hot:#A8611A; --hot-soft:#F6E8D6;
+  --new:#3A57A6; --new-soft:#E2E8F7; --warn:#8A2D2D;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1614; --surface:#17211E; --ink:#E4ECE9; --muted:#97A7A1; --rule:#2B3834;
+  --accent:#4FC2A5; --accent-soft:#173A31; --hot:#E3A35E; --hot-soft:#3A2A17;
+  --new:#8FA8F0; --new-soft:#1E2742; --warn:#E58C8C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1614; --surface:#17211E; --ink:#E4ECE9; --muted:#97A7A1; --rule:#2B3834;
+  --accent:#4FC2A5; --accent-soft:#173A31; --hot:#E3A35E; --hot-soft:#3A2A17;
+  --new:#8FA8F0; --new-soft:#1E2742; --warn:#E58C8C; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.6}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header h1{font-family:var(--f-display);font-weight:800;font-size:clamp(24px,4vw,34px);margin:0;text-wrap:balance;letter-spacing:.02em}
+header p{color:var(--muted);margin:6px 0 0;max-width:68ch}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:22px 0}
+.kpi{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;min-width:0}
+.kpi .lab{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi .val{font-family:var(--f-num);font-size:26px;font-weight:600;color:var(--accent);line-height:1.2;margin-top:4px}
+.kpi .sub{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule);margin-top:8px;flex-wrap:wrap}
+.tab{appearance:none;border:0;background:none;color:var(--muted);font:inherit;font-weight:700;padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{padding-top:16px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;border:1px solid var(--rule);background:var(--surface);color:var(--ink);font:inherit;font-size:13px;padding:4px 11px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+select,input[type="search"]{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--surface);color:var(--ink)}
+input[type="search"]{min-width:180px;flex:1 1 180px;max-width:320px}
+.cnt{color:var(--muted);font-size:13px;margin-left:auto}
+.tblbox{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em;white-space:nowrap;position:sticky;top:0;background:var(--surface)}
+th.sort{cursor:pointer;user-select:none}
+th.sort:hover{color:var(--ink)}
+th .arr{font-family:var(--f-num)}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+td.r{text-align:right;white-space:nowrap}
+.pname{font-weight:700}
+.pco{color:var(--muted);font-size:12px}
+.note{color:var(--muted);font-size:12px;margin-top:2px;max-width:46ch}
+.tag{display:inline-block;font-size:11px;padding:0 7px;border-radius:4px;margin:2px 4px 0 0;font-weight:700;white-space:nowrap}
+.t-hot{background:var(--hot-soft);color:var(--hot)}
+.t-new{background:var(--new-soft);color:var(--new)}
+.t-top{background:var(--accent-soft);color:var(--accent)}
+.kind{font-size:12px;white-space:nowrap}
+.rate{font-family:var(--f-num);font-weight:600;font-size:15px}
+.rate.na{color:var(--muted);font-weight:500;font-size:12px}
+.src a{color:var(--accent);font-family:var(--f-num);font-size:11px;margin-right:4px;text-decoration:none}
+.src a:hover{text-decoration:underline}
+input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent)}
+.legend{font-size:12px;color:var(--muted);margin-top:10px;max-width:90ch}
+/* 利率圖 */
+.dot-list{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
+.dot-row{display:grid;grid-template-columns:88px 1fr 56px;align-items:center;gap:10px;padding:5px 0}
+.dot-row .co{font-size:13px;white-space:nowrap}
+.track{position:relative;height:18px;border-left:1px solid var(--rule)}
+.track::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px dashed var(--rule)}
+.dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%)}
+.dot.max{background:var(--hot)}
+.axis{display:grid;grid-template-columns:88px 1fr 56px;gap:10px;font-size:11px;color:var(--muted)}
+.axis .ticks{position:relative;height:16px}
+.axis .ticks span{position:absolute;transform:translateX(-50%);font-family:var(--f-num)}
+/* 比較抽屜 */
+.drawer{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:2px solid var(--accent);box-shadow:0 -8px 24px rgba(0,0,0,.12);z-index:20;padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer-in{max-width:1240px;margin:0 auto;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.drawer-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{appearance:none;font:inherit;font-weight:700;font-size:13px;border-radius:8px;padding:6px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--surface)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.cmp{overflow-x:auto;margin-top:10px;max-height:52vh;overflow-y:auto}
+.cmp table{min-width:640px}
+.cmp th{position:static;width:110px}
+.cmp td{font-size:13px;min-width:180px}
+.foot{margin-top:28px;font-size:12px;color:var(--muted)}
+.foot ol{padding-left:22px;margin:6px 0}
+.foot a{color:var(--accent)}
+.warnbox{border-left:3px solid var(--warn);background:var(--surface);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:14px 0}
+@media (max-width:560px){.dot-row,.axis{grid-template-columns:64px 1fr 48px}.kpi .val{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>壽險熱賣商品比較表</h1>
+  <p>整理 2026 年 11 月（11/16 更新）各壽險公司熱銷、高宣告利率與新上市的利變、分紅、養老及投資型商品。在售狀態與上市日期以「保險百科」（台名保經智能E神，與保發中心每週同步）核對。勾選商品可並排比較。</p>
+</header>
+
+<section class="kpis" aria-label="市場摘要">
+  <div class="kpi"><div class="lab">美元利變最高宣告利率（11月）</div><div class="val">4.42%</div><div class="sub">台灣人壽 美好60</div></div>
+  <div class="kpi"><div class="lab">台幣利變最高宣告利率</div><div class="val">2.90%</div><div class="sub">安聯人壽（10月報導）</div></div>
+  <div class="kpi"><div class="lab">前九月新契約保費</div><div class="val">1兆1,724億</div><div class="sub">年增 58.6%</div></div>
+  <div class="kpi"><div class="lab">前九月投資型年金新契約</div><div class="val">4,148億</div><div class="sub">年增 1.29 倍；傳統年金僅 21 億</div></div>
+</section>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" id="tab-main" aria-selected="true" data-p="p-main">熱銷與利率比較</button>
+  <button class="tab" role="tab" id="tab-lib" aria-selected="false" data-p="p-lib">115年新上市商品庫</button>
+  <button class="tab" role="tab" id="tab-rate" aria-selected="false" data-p="p-rate">各公司最高利率</button>
+</div>
+
+<section class="panel" id="p-main" role="tabpanel">
+  <div class="controls">
+    <div class="chips" id="kindChips" aria-label="商品類型"></div>
+  </div>
+  <div class="controls">
+    <div class="chips" id="curChips" aria-label="幣別"></div>
+    <select id="coSel" aria-label="保險公司"></select>
+    <label style="font-size:13px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="hotOnly">只看熱銷／新品</label>
+    <input type="search" id="q" placeholder="搜尋商品名稱">
+    <span class="cnt" id="cnt"></span>
+  </div>
+  <div class="tblbox">
+    <table>
+      <thead><tr>
+        <th>比較</th>
+        <th class="sort" data-k="name">商品 <span class="arr"></span></th>
+        <th class="sort" data-k="kind">類型 <span class="arr"></span></th>
+        <th>幣別</th>
+        <th class="sort" data-k="rate">宣告利率 <span class="arr"></span></th>
+        <th class="sort" data-k="sales">銷售實績（新台幣） <span class="arr"></span></th>
+        <th class="sort" data-k="launch">銷售起日 <span class="arr"></span></th>
+        <th>繳費</th>
+        <th>來源</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+  <p class="legend">宣告利率為該月份公告值，每月可能調整，且不是保證報酬。銷售實績的統計期間各不相同（第一季、前八月、前九月），請看欄內說明，不同期間的數字不宜直接相比。銷售起日標「*」者，為條款部分變更後的新版銷售起日，不是首賣日。</p>
+</section>
+
+<section class="panel" id="p-lib" role="tabpanel" hidden>
+  <div class="controls">
+    <div class="chips" id="libKind" aria-label="商品類型"></div>
+  </div>
+  <div class="controls">
+    <div class="chips" id="libCur" aria-label="幣別"></div>
+    <select id="libCo" aria-label="保險公司"></select>
+    <select id="libSince" aria-label="上市期間">
+      <option value="115/01/01">115 年全年</option>
+      <option value="115/07/01">115/07 以後</option>
+      <option value="115/09/01">115/09 以後</option>
+      <option value="115/10/01">115/10 以後</option>
+    </select>
+    <input type="search" id="libQ" placeholder="搜尋商品名稱">
+    <span class="cnt" id="libCnt"></span>
+  </div>
+  <div class="tblbox">
+    <table>
+      <thead><tr><th>銷售起日</th><th>保險公司</th><th>商品名稱</th><th>類型</th><th>幣別</th><th>險別</th></tr></thead>
+      <tbody id="libTb"></tbody>
+    </table>
+  </div>
+  <p class="legend">資料來源：保險百科傳統型壽險與傳統型年金分類，只列 115/01/01 以後開賣、名稱含利變、分紅、增額、養老、還本或年金的現售商品，不含定期壽險、健康與傷害險、批註條款及附約。類型與幣別依商品名稱判斷；名稱只寫「外幣」者多為美元，仍以條款為準。</p>
+</section>
+
+<section class="panel" id="p-rate" role="tabpanel" hidden>
+  <div class="controls">
+    <div class="chips" id="rateCur"></div>
+    <span class="cnt" id="rateNote"></span>
+  </div>
+  <div class="dot-list" id="dots"></div>
+  <p class="legend">各公司當月最高宣告利率，取自經濟日報報導。美元：南山為 11 月調升後的值，其餘為 10 月值，報導稱 11 月各家大致不變。台幣：10 月值，國泰為 8 月現售保障型商品的值。橫軸刻度從截斷值起算，用來看差距，不代表利率由零起跳。</p>
+</section>
+
+<div class="warnbox">金管會已宣布自 2027 年 1 月 1 日起，利變型保單的銷售文件須載明：不是存款、宣告利率不保證、解約金可能低於已繳保費。向客戶說明時，宣告利率與分紅都要講清楚是非保證項目。</div>
+
+<div class="foot">
+  <strong>資料來源</strong>
+  <ol id="srcList"></ol>
+  <p>本表僅整理公開資訊供比較參考，不構成投保建議。商品內容以各公司條款、DM 與核保規定為準。</p>
+</div>
+</div>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-in">
+    <div class="drawer-bar">
+      <strong>已選 <span class="num" id="selN">0</span>/4</strong>
+      <span id="selNames" style="color:var(--muted);font-size:13px;flex:1;min-width:0"></span>
+      <button class="btn" id="cmpBtn">並排比較</button>
+      <button class="btn ghost" id="clrBtn">清除</button>
+    </div>
+    <div class="cmp" id="cmp" hidden></div>
+  </div>
+</div>
+
+<script>
+const SRC=[
+ ["統一保代｜當月宣告利率（2026/11）","https://insurance.pscnet.com.tw/ia/rate.html"],
+ ["經濟日報 2026/11/03｜南山利變保單宣告利率4.4%","https://money.udn.com/money/story/122377/9852950"],
+ ["經濟日報 2026/10/04｜新壽三張新美元保單4.4%、各家10月利率","https://money.udn.com/money/story/5613/9793810"],
+ ["經濟日報 2026/08/01｜美元保單宣告利率衝4.42%","https://money.udn.com/money/story/5613/9663776"],
+ ["經濟日報 2026/08/03｜8月各家台幣、美元宣告利率","https://udn.com/news/story/7239/9668482"],
+ ["經濟日報 2026/05/04｜美元利變天花板拉高至4.42%（美好60）","https://udn.com/news/story/7239/9481377"],
+ ["經濟日報 2026/04/26｜六大壽險第一季最熱賣外幣保單","https://money.udn.com/money/story/5613/9464512"],
+ ["工商時報 2026/09/23｜壽險百億神單前八月衝16張","https://www.chinatimes.com/newspapers/20260923000254-260210"],
+ ["經濟日報 2026/07/21｜上半年12張百億神單","https://udn.com/news/story/7239/9642197"],
+ ["經濟日報 2026/05/14｜凱基紅運富御美元分紅終身壽險","https://money.udn.com/money/story/5612/9502150"],
+ ["今周刊 2026/07/02｜安聯滙紅享富英式分紅保單","https://www.businesstoday.com.tw/article/category/183021/post/202607020006/"],
+ ["ETtoday 2025/12/12｜台灣人壽美紅齊旺美元分紅終身壽險","https://finance.ettoday.net/news/3083149"],
+ ["中央社 2026/09/08｜南山增多鑽利率變動型終身保險","https://www.cna.com.tw/business/chinese/443586"],
+ ["工商時報 2026/10/21｜壽險前九月新契約保費1.17兆","https://www.ctee.com.tw/news/20261021700091-439901"],
+ ["經濟日報 2026/05/14｜分紅保單紅利實現率","https://money.udn.com/money/story/5613/9501266"],
+ ["旺得富 2026/07/15｜金管會修正利變型保單規範","https://wantrich.chinatimes.com/news/20260715900201-420501"],
+ ["保險百科（台名保經智能E神，與保發中心每週同步）｜現售商品銷售起迄日",""],
+ ["工商時報 2026/11/02｜南山人壽推出年年發美元利變還本終身險","https://www.ctee.com.tw/news/20261102701632-430305"],
+ ["鉅亨網 2026/09/29｜安達人壽聯手星展推美利星承美元分紅保單","https://news.cnyes.com/news/id/6617696"],
+ ["經濟日報 2026/10/22｜16張壽險百億神單 前九月銷售4,700億元","https://udn.com/news/story/7239/9829670"],
+ ["工商時報 2026/10/22｜壽險百億神單 今年銷售拚雙高","https://www.ctee.com.tw/news/20261022700113-439901"],
+ ["經濟日報 2026/10/16｜國泰人壽美愛康泰美元利變險","https://money.udn.com/money/story/5613/9818623"]
+];
+// [公司, 商品, 類型, 幣別, 利率, 利率月份, 銷售起日, 繳費, 銷售億, 銷售說明, 標籤, 說明, 來源]
+const R=[
+["新光人壽","美富家外幣利率變動型終身壽險","利變終身","美元",4.25,"11月","114/11/03","",160,"前九月逾160億",["熱銷"],"2025年11月上市；前九月百億神單中唯一利變型保單；第一季新契約73.84億",[1,7,20,21,17]],
+["國泰人壽","美愛康盈利率變動型美元終身保險","利變終身","美元",null,"","","",50,"第一季逾50億",["熱銷"],"國泰第一季最熱賣外幣保單；保險百科查無此名稱，可能已改版，請以公司公告為準",[7]],
+["富邦人壽","智富紅運外幣分紅終身壽險","分紅","美元",null,"","115/01/01*","",130,"前九月約130億",["熱銷"],"百億神單中唯一分紅保單；富邦分紅商品紅利實現率連14年達100%以上",[7,20,21,15,17]],
+["南山人壽","美利Fun鑫美元養老保險","養老","美元",null,"","114/05/24","",47,"第一季逾47億",["熱銷"],"",[7,17]],
+["台灣人壽","美鑫利旺美元利率變動型終身壽險","利變終身","美元",null,"","114/06/25","",30,"第一季近30億",["熱銷"],"",[7,17]],
+["凱基人壽","美固多多美元養老保險","養老","美元",null,"","114/08/28","",25,"第一季逾25億",["熱銷"],"",[7,17]],
+["台灣人壽","美好60美元利率變動型終身壽險","利變終身","美元",4.42,"11月","115/04/16","",null,"",["最高利率"],"全市場美元利變最高宣告利率",[6,2,17]],
+["南山人壽","御守護美元利率變動型終身壽險（定期給付型）","利變終身","美元",4.40,"11月","115/10/09","",null,"",["新品","最高利率"],"南山美元最高宣告利率由4.3%調升至4.4%",[2,17]],
+["新光人壽","美鑽享扶外幣利率變動型終身壽險（定期給付型）","利變終身","美元",4.40,"10月","115/10/01","",null,"",["新品","最高利率"],"10/1 同步推出的三張美元新單之一",[3,17]],
+["新光人壽","美增富外幣利率變動型終身壽險（定期給付型）","利變終身","美元",4.40,"10月","115/10/01","",null,"",["新品","最高利率"],"10/1 同步推出的三張美元新單之一",[3,17]],
+["新光人壽","美傳寶外幣利率變動型終身壽險（定期給付型）","利變終身","美元",4.40,"10月","115/10/01","",null,"",["新品","最高利率"],"10/1 同步推出的三張美元新單之一",[3,17]],
+["南山人壽","增多鑽利率變動型終身保險（定期給付型）","利變終身","台幣",2.78,"11月","115/08/01","躉繳",null,"",["新品"],"0–88歲可投保；保障至110歲；搭乘大眾運輸意外身故另有給付",[13,2,17]],
+["國泰人壽","萬得利利率變動型終身保險","利變終身","台幣",2.55,"8月","114/05/15","",null,"",[],"國泰現售台幣保障型代表商品",[5,17]],
+["國泰人壽","祿守澳利（澳幣利變型）","利變終身","澳幣",3.90,"8月","114/01/01*","",null,"",[],"澳幣保單最高宣告利率",[4,17]],
+["凱基人壽","紅運富御美元分紅終身壽險－定期給付型","分紅","美元",null,"","115/05/01","6年期",null,"",["新品"],"凱基分紅保單過去16年中分紅實現率100%；2025年回歸商品首次宣告為中分紅的110%",[10,15,17]],
+["台灣人壽","美紅齊旺美元分紅終身壽險","分紅","美元",null,"","114/10/28","7年期",null,"",[],"華南銀行首賣；年度紅利加終期紅利，紅利非保證",[12,17]],
+["南山人壽","年年發美元利率變動型還本終身保險（定期給付型）","利變還本","美元",null,"","115/11（報導）","3／6／10年期",null,"",["新品"],"復刻「年年春還本終身保險」；第6保單年度末起每年（或每月）領生存還本金；0–80歲；保障至110歲；增值回饋分享金依宣告利率計算，非保證；個別宣告利率未公告",[18]],
+["安達人壽","美利星承美元分紅終身保險","分紅","美元",null,"","115/07/21","2年期",null,"",["新品"],"星展銀行通路；第4保單週年日起每年領生存保險金；週年紅利及終極紅利分紅比例80%，紅利非保證",[19,17]],
+["安聯人壽","滙紅享富外幣終身壽險（定額給付型）","分紅","美元",null,"","115/07（報導）","6年期",null,"",["新品"],"滙豐銀行獨家；英式分紅（增額分紅保額＋終期分紅）；0–75歲；安聯首張分紅保單",[11]],
+// 統一保代 11 月宣告利率表
+["凱基人壽","財旺來利率變動型終身壽險-定期給付型","利變終身","台幣",2.78,"11月","115/04/15","",null,"",[],"",[1,17]],
+["凱基人壽","享美鑫美元利率變動型終身壽險-定期給付型","利變終身","美元",4.35,"11月","114/10/31","",null,"",[],"",[1,17]],
+["凱基人壽","傳富久安美元利率變動型終身壽險-定期給付型","利變終身","美元",4.30,"11月","","",null,"",[],"",[1]],
+["凱基人壽","幸福美滿美元利率變動型終身壽險-定期給付型","利變終身","美元",4.30,"11月","","",null,"",[],"",[1]],
+["元大人壽","金元寶利率變動型終身壽險","利變終身","台幣",2.60,"11月","","",null,"",[],"",[1]],
+["元大人壽","元大金旺利率變動型終身壽險","利變終身","台幣",2.75,"11月","","",null,"",[],"",[1]],
+["元大人壽","元傳鑫美元利率變動型終身壽險","利變終身","美元",4.30,"11月","114/10/31","",null,"",[],"",[1,17]],
+["元大人壽","日優寶日圓利率變動型終身壽險","利變終身","日圓",3.00,"11月","115/02/13","",null,"",[],"日圓保單最高宣告利率",[1,4,17]],
+["新光人壽","多美傳家利率變動型美元終身保險","利變終身","美元",4.30,"11月","115/01/01*","",null,"",[],"",[1,17]],
+["新光人壽","鑫好美利率變動型美元終身保險","利變終身","美元",4.30,"11月","115/01/01*","",null,"",[],"",[1,17]],
+["新光人壽","美利臻心利率變動型美元終身保險","利變終身","美元",4.30,"11月","115/01/01*","",null,"",[],"",[1,17]],
+["新光人壽","金來保利率變動型終身壽險","利變終身","台幣",2.70,"11月","","",null,"",[],"",[1]],
+["新光人壽","美鑽傳世外幣利率變動型終身壽險","利變終身","外幣",4.30,"11月","","",null,"",[],"",[1]],
+["新光人壽","美鑽傳家外幣利率變動型終身壽險","利變終身","外幣",4.20,"11月","","",null,"",[],"",[1]],
+["新光人壽","美鑽長青外幣利率變動型終身壽險","利變終身","外幣",4.20,"11月","","",null,"",[],"",[1]],
+["新光人壽","美傳家外幣利率變動型終身壽險","利變終身","外幣",4.25,"11月","","",null,"",[],"",[1]],
+["新光人壽","美創富外幣利率變動型終身壽險","利變終身","外幣",4.15,"11月","","",null,"",[],"",[1]],
+["台灣人壽","新傳承富利利率變動型終身壽險","利變終身","台幣",2.30,"11月","114/01/01*","",null,"",[],"",[1,17]],
+["台灣人壽","金得利利率變動型增額終身壽險","利變增額","台幣",2.75,"11月","114/01/01*","",null,"",[],"",[1,17]],
+["台灣人壽","吉美世美元利率變動型終身壽險","利變終身","美元",4.35,"11月","114/01/13","",null,"",[],"",[1,17]],
+["台灣人壽","臻美福美元利率變動型終身壽險","利變終身","美元",4.30,"11月","114/07/04","",null,"",[],"",[1,17]],
+["台灣人壽","旺美勝美元利率變動型終身壽險","利變終身","美元",4.30,"11月","114/01/01*","",null,"",[],"",[1,17]],
+["台灣人壽","美鑫美利美元利率變動型終身壽險","利變終身","美元",4.20,"11月","115/09/01*","",null,"",[],"",[1,17]],
+["全球人壽","金美美利多利率變動型美元終身壽險","利變終身","美元",4.20,"11月","","",null,"",[],"",[1]],
+["全球人壽","金美好富貴利率變動型美元終身壽險（定額給付型）","利變終身","美元",4.35,"11月","115/03/30","",null,"",[],"",[1,17]],
+["國泰人壽","萬美富利率變動型美元終身壽險","利變終身","美元",4.30,"11月","","",null,"",[],"",[1]],
+["國泰人壽","億美利利率變動型美元終身壽險","利變終身","美元",4.35,"11月","114/06/19","",null,"",[],"",[1,17]],
+["國泰人壽","美利甘心利率變動型美元終身壽險","利變終身","美元",4.30,"11月","","",null,"",[],"",[1]],
+["國泰人壽","美愛康泰利率變動型美元終身保險（定期給付型）","利變終身","美元",4.35,"11月","","2／6／8年期等",null,"",["新品"],"11月首度列入統一保代宣告利率表；結合重度癌症與四項嚴重自體免疫疾病之特定傷病保險金（基本保額10%）及保費豁免；身故保險金可分期給付；增值回饋分享金依宣告利率計算，非保證；確切銷售起日未查得",[1,22]],
+["國泰人壽","美添增鑫利率變動型美元終身壽險","利變終身","美元",4.25,"11月","","",null,"",[],"",[1]],
+["國泰人壽","祿利威登利率變動型終身壽險","利變終身","台幣",2.35,"11月","","",null,"",[],"",[1]],
+["國泰人壽","穩盈樂活利率變動型美元終身保險","利變終身","美元",4.25,"11月","","",null,"",[],"",[1]],
+["富邦人壽","豐盛年年利率變動型終身保險","利變終身","台幣",2.45,"11月","","",null,"",[],"",[1]],
+["富邦人壽","美利大運外幣利率變動型終身壽險","利變終身","外幣",4.35,"11月","115/01/22*","",null,"",[],"",[1,17]],
+["遠雄人壽","美滿金享優利率變動型終身保險","利變終身","台幣",2.60,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","傳富美樂福美元利率變動型終身保險","利變終身","美元",4.30,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","富貴喜相逢利率變動型終身還本保險","利變還本","台幣",2.50,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","富貴喜多利利率變動型終身還本保險","利變還本","台幣",2.50,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","傳富雄保倍2利率變動型終身壽險","利變終身","台幣",2.75,"11月","","",null,"",[],"已有新版「雄保倍３」於115/09/30開賣",[1,17]],
+["遠雄人壽","傳富倍多紛利率變動型終身壽險","利變終身","台幣",2.50,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","傳富萬豪美元利率變動型終身壽險","利變終身","美元",4.32,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","美滿美利旺美元利率變動型增額終身壽險","利變增額","美元",4.35,"11月","","",null,"",[],"",[1]],
+["遠雄人壽","美滿雄福利2利率變動型增額終身壽險","利變增額","台幣",2.75,"11月","","",null,"",[],"已有新版「雄福利３」於115/10/06開賣",[1,17]],
+// 百億神單：投資型
+["安聯人壽","吉利發發台外幣變額年金／變額萬能壽險","投資型","台外幣",null,"","115/08/31*","",450,"前九月估逾450億（前八月403億）",["熱銷"],"投資型，帳戶價值隨投資標的漲跌，無宣告利率",[20,21,17]],
+["南山人壽","鑫月雙享變額年金保險","投資型","台外幣",null,"","115/09/12*","",410,"前九月近410億",["熱銷"],"投資型，帳戶價值隨投資標的漲跌；7月上市首月即逾300億",[20,21,17]],
+["元大人壽","元元致富台外幣變額年金／變額萬能壽險","投資型","台外幣",null,"","115/03/03*","",300,"前九月近300億",["熱銷"],"投資型",[20,21,17]],
+["國泰人壽","月月泰利台外幣變額年金／變額壽險","投資型","台外幣",null,"","115/07/01*","",770,"前九月近770億",["熱銷"],"月配息型投資型保單，配息非保證",[20,21,17]],
+["國泰人壽","月月永溢台外幣變額年金／變額壽險","投資型","台外幣",null,"","115/07/01*","",820,"前九月逾820億",["熱銷"],"前九月業界銷售冠軍；月配息型投資型保單，配息非保證",[20,21,17]],
+["國泰人壽","鑫超月得益台外幣變額年金／變額壽險","投資型","台外幣",null,"","115/07/01*","",220,"前九月逾220億",["熱銷"],"投資型",[20,21,17]],
+["國泰人壽","月月滿溢台外幣變額年金／變額壽險","投資型","台外幣",null,"","115/07/01*","",250,"前九月近250億",["熱銷"],"投資型",[20,21,17]],
+["凱基人壽","一生傳富台外幣變額年金／壽險","投資型","台外幣",null,"","115/06/25","",235,"前九月約235億（工商時報：近240億）",["熱銷"],"投資型",[20,21,17]],
+["台灣人壽","信鑫滿滿台外幣變額年金／萬能壽險","投資型","台外幣",null,"","115/04/09","",190,"前九月約190億（工商時報：近200億）",["熱銷"],"投資型",[20,21,17]],
+["富邦人壽","真豐利台外幣變額年金保險","投資型","台外幣",null,"","115/04/29","",170,"前九月約170億（工商時報：近180億）",["熱銷"],"投資型",[20,21,17]],
+["凱基人壽","活利鑫動台外幣變額年金／壽險","投資型","台外幣",null,"","114/08/11","",170,"前九月近170億",["熱銷"],"投資型",[20,21,17]],
+["三商美邦人壽","金世紀多利台外幣變額年金／萬能壽險","投資型","台外幣",null,"","113/09/13","",155,"前九月逾155億（工商時報：逾150億）",["熱銷"],"投資型",[20,21,17]],
+["安達人壽","富貴大贏家台外幣變額年金／萬能壽險","投資型","台外幣",null,"","115/07/15*","",155,"前九月約155億（工商時報：逾150億）",["熱銷"],"投資型",[20,21,17]],
+["法國巴黎人壽","金采年華台外幣變額年金／萬能壽險","投資型","台外幣",null,"","114/01/01*","",125,"前九月近125億（工商時報：近130億）",["熱銷"],"投資型",[20,21,17]]
+];
+
+// 保險百科：115年起開賣（公司|L壽險/A年金|名稱|銷售起，民國年省略首位1）
+const LIB=`中華郵政|L|金郵利增額終身壽險|15/07/28
+元大|L|傳富6年繳計畫美元利率變動型終身壽險|15/05/11
+元大|L|優享美利美元利率變動型還本終身保險|15/05/08
+元大|L|元元美好美元養老保險|15/08/10
+元大|L|元大臻旺美元利率變動型終身壽險|15/01/21
+元大|L|日優員日圓利率變動型終身壽險|15/03/03
+元大|L|日優寶日圓利率變動型終身壽險|15/02/13
+元大|L|旺億昇利率變動型終身壽險|15/03/13
+元大|L|福氣美滿美元利率變動型終身壽險|15/06/24
+元大|L|臻鑫旺利率變動型終身壽險|15/07/01
+元大|L|鑫美好美元養老保險|15/06/12
+台灣|A|美樂遞美元利率變動型年金保險|15/01/09
+台灣|A|金安享利率變動型年金保險|15/01/01
+台灣|A|金穩年利率變動型年金保險*|15/06/01
+台灣|L|吉享紅分紅終身還本保險*|15/01/01
+台灣|L|多美好美元養老保險|15/04/30
+台灣|L|旺美勝利美元利率變動型終身壽險|15/07/08
+台灣|L|樂活安鑫美元利率變動型終身保險|15/08/28
+台灣|L|紅利旺分紅終身壽險*|15/01/01
+台灣|L|美世長紅美元分紅終身壽險*|15/01/01
+台灣|L|美好60美元利率變動型終身壽險|15/04/16
+台灣|L|美溢發美元利率變動型終身壽險*|15/07/01
+台灣|L|美盛長紅美元分紅終身壽險|15/08/24
+台灣|L|美紅吉利美元分紅終身壽險|15/07/06
+台灣|L|美紅富利美元分紅終身壽險*|15/06/01
+台灣|L|美紅旺美元分紅終身壽險*|15/01/01
+台灣|L|美鑫美利美元利率變動型終身壽險*|15/09/01
+台灣|L|臻得美美元利率變動型終身壽險*|15/09/01
+台灣|L|臻美傳愛美元利率變動型終身壽險|15/05/15
+台灣|L|超享紅分紅終身還本保險|15/08/27
+台灣|L|鑫金美勝美元利率變動型終身壽險|15/07/29
+全球|L|兆得助利率變動型終身壽險(定額給付型)|15/06/01
+全球|L|尊榮37利率變動型美元終身壽險(定額給付型)|15/02/02
+全球|L|溢美至富利率變動型美元還本終身保險(定額給付型)|15/04/27
+全球|L|神力美添旺利變美元終壽(定額給付型)|15/02/02
+全球|L|美億傳承利變美元終壽(定額給付型)|15/08/17
+全球|L|美利12利變美元終壽(定額給付型)|15/06/01
+全球|L|美利長盈利變美元終壽(定額給付型)*|15/06/29
+全球|L|美滿智富利變美元終壽(定額給付型)|15/03/30
+全球|L|豪旺傳家利變終壽(定額給付型)|15/06/29
+全球|L|豪神68利變美元終壽(定額給付型)|15/08/17
+全球|L|豪美樂利利變美元終壽(定額給付型)*|15/06/29
+全球|L|金滿益利變美元終壽(定額給付型)|15/06/01
+全球|L|金美好富貴利變美元終壽(定額給付型)|15/03/30
+全球|L|鑫億68利變美元終壽(定額給付型)|15/04/13
+合庫|L|美保堅利美元利變終壽|15/04/10
+合庫|L|合利多旺利變終壽(定)|15/09/18
+合庫|L|合利鑫旺利變終壽(定)|15/07/01
+合庫|L|新美利安心$養老保險(定)|15/08/17
+合庫|L|日利鑫旺日圓利變終壽(定)|15/08/17
+合庫|L|真美優利$利變終壽(定)|15/09/18
+合庫|L|真美豐華$利變終壽(定)*|15/02/26
+安達|L|快樂保倍美元分紅終壽*|15/01/01
+安達|L|星利保倍美元分紅終壽*|15/01/01
+安達|L|永富長紅美元分紅終壽|15/01/30
+安達|L|美利大世代美元分紅終壽|15/01/20
+安達|L|美利如星美元分紅終壽*|15/01/01
+安達|L|美利新世代美元分紅終壽*|15/01/01
+安達|L|美利星承美元分紅終身保險|15/07/21
+安達|L|美利紅美元分紅終壽*|15/01/01
+安達|L|美好美利美元分紅終壽*|15/01/01
+安聯|L|富享寰宇外幣利變終壽(定額給付型)|15/05/01
+安聯|L|美利久久外幣利變終壽(定額給付型)*|15/03/01
+宏泰|L|六六泰順美元養老保險*|15/07/10
+宏泰|L|板鑫得利利變終壽*|15/07/10
+宏泰|L|泰多利利變終壽*|15/07/10
+宏泰|L|泰得利利變終壽*|15/07/10
+宏泰|L|泰福利利變終壽*|15/07/10
+宏泰|L|祿得利利變終壽*|15/07/10
+宏泰|L|美事傳富美元利變終壽*|15/07/10
+宏泰|L|美滿佳倍美元利變終壽*|15/03/17
+宏泰|L|美鑫傳富美元利變終壽|15/09/01
+宏泰|L|鑽美晶美元養老保險|15/07/27
+友邦|L|傳璽富足利變終壽|15/06/05
+友邦|L|華利雙享美元利變還本終身保險|15/10/01
+友邦|L|萬寶富利美元利變終壽|15/05/04
+友邦|L|萬寶富裕利變終壽|15/07/01
+第一金|L|信福贏家美元利變終壽|15/08/14
+第一金|L|國鑫傳承美元利變終壽|15/09/30
+第一金|L|愛傳家利變終壽|15/05/22
+第一金|L|第一喜樂美元利變終壽|15/03/27
+第一金|L|第一賓利利變終壽|15/07/01
+第一金|L|第一金讚利變終壽|15/07/01
+第一金|L|美旺旺美元利變終壽|15/05/22
+第一金|L|美金多多美元利變終壽|15/07/01
+第一金|L|美金真豪美元養老保險|15/08/27
+第一金|L|豪傳家美元利變終壽|15/05/22
+第一金|L|金旺旺利變終壽|15/05/22
+第一金|L|金美傳家美元利變終壽|15/07/01
+富邦|A|鑫安e生即期年金保險|15/04/13
+富邦|L|享滿富分紅終身保險*|15/01/01
+富邦|L|優富年年分紅養老保險*|15/01/01
+富邦|L|圓滿鑽利變增額終壽*|15/01/22
+富邦|L|富好鑽利變增額終壽*|15/03/13
+富邦|L|富美優利外幣分紅終身保險*|15/01/01
+富邦|L|富美鴻旺外幣利變終壽|15/01/08
+富邦|L|富裕長紅增額分紅終壽*|15/01/01
+富邦|L|富貴長紅分紅終壽*|15/01/01
+富邦|L|尊榮傳世外幣分紅終壽|15/07/14
+富邦|L|尊榮紅富外幣分紅終壽*|15/01/01
+富邦|L|恆美富足外幣分紅終壽|15/07/24
+富邦|L|星美富足外幣分紅終壽*|15/01/01
+富邦|L|智富紅運外幣分紅終壽*|15/01/01
+富邦|L|月月紅富分紅終身保險*|15/04/13
+富邦|L|活利優退分紅終身保險*|15/01/01
+富邦|L|福星雙盈外幣分紅終身保險*|15/01/01
+富邦|L|紅富年年分紅終身保險|15/03/31
+富邦|L|紅富美好外幣分紅終壽*|15/01/01
+富邦|L|紅旺年年分紅終身保險*|15/01/01
+富邦|L|紅運優外幣分紅終身保險*|15/01/01
+富邦|L|紅運多多分紅終身保險*|15/01/22
+富邦|L|紅運年代分紅終身保險*|15/01/01
+富邦|L|紅運滿滿外幣分紅終身保險*|15/01/01
+富邦|L|紅運長樂增額分紅終壽*|15/01/01
+富邦|L|美利大運外幣利變終壽*|15/01/22
+富邦|L|美好優退外幣分紅終身保險*|15/01/01
+富邦|L|美富優退外幣分紅終身保險*|15/01/16
+富邦|L|美富紅盈外幣分紅終壽|15/06/08
+富邦|L|美富紅運外幣分紅終壽*|15/01/01
+富邦|L|美富長紅外幣分紅終壽*|15/01/18
+富邦|L|美年加鑫外幣分紅終身保險*|15/01/01
+富邦|L|美年紅旺外幣分紅終身保險*|15/01/01
+富邦|L|美滿富外幣分紅終身保險*|15/01/01
+富邦|L|美滿豐年外幣分紅終身保險*|15/09/30
+富邦|L|美盈鴻旺外幣利變終壽|15/03/31
+富邦|L|美紅大吉外幣分紅終壽*|15/01/01
+富邦|L|花漾年華外幣分紅終身保險*|15/01/01
+富邦|L|華富紅運分紅終壽*|15/01/01
+富邦|L|豐鑽年年利變終身保險|15/04/29
+富邦|L|豐順年年利變終身保險|15/06/30
+富邦|L|超享優退分紅終身保險*|15/01/17
+富邦|L|超美優退外幣分紅終身保險*|15/01/01
+富邦|L|金盈美滿外幣增額終壽|15/01/12
+富邦|L|金馬優退外幣分紅終身保險|15/03/17
+富邦|L|雙盈人生外幣分紅終壽|15/06/15
+富邦|L|雙美紅運外幣分紅終身保險*|15/01/01
+富邦|L|鴻運久久分紅終壽*|15/01/01
+新光|L|傳富安家利變美元終身保險*|15/01/01
+新光|L|台享富貴利變終壽*|15/01/01
+新光|L|台保傳家利變終身保險*|15/01/01
+新光|L|台富人生利變還本終身保險*|15/01/01
+新光|L|台新雙盈分紅還本終身保險*|15/01/01
+新光|L|台有利利變還本終身保險*|15/01/01
+新光|L|台鑫旺分紅終壽*|15/01/01
+新光|L|台鑫金讚利變終身保險*|15/01/01
+新光|L|吉美傳家利變美元終壽*|15/01/01
+新光|L|多美傳家利變美元終身保險*|15/01/01
+新光|L|大樂美利變美元終身保險*|15/01/01
+新光|L|愛寶倍利變終身保險*|15/01/01
+新光|L|美保金讚利變美元終身保險*|15/01/01
+新光|L|美利傳世利變美元終壽*|15/01/01
+新光|L|美利臻心利變美元終身保險*|15/01/01
+新光|L|美利達利變美元終身保險*|15/01/01
+新光|L|美好世代利變美元終身保險*|15/01/01
+新光|L|美滿傳世利變美元終壽*|15/01/01
+新光|L|美滿豐收利變美元終身保險*|15/01/01
+新光|L|美鴻世代美元分紅終壽*|15/01/01
+新光|L|美鴻添富美元分紅終壽*|15/01/01
+新光|L|華美臻鑫利變美元終身保險*|15/01/01
+新光|L|豐盈智富美元分紅終壽*|15/01/01
+新光|L|金采人生利變美元還本終身保險*|15/01/01
+新光|L|鑫享人生利變美元還本終身保險*|15/01/01
+新光|L|鑫好美利變美元終壽*|15/01/01
+新光|L|鑫盈富利變美元終壽*|15/01/01
+新光|L|世代傳紅分紅終壽(定)|15/04/27
+新光|L|美傳寶外幣利變終壽(定)|15/10/01
+新光|L|美利亞外幣分紅終壽(定)|15/07/20
+新光|L|美利來外幣養老保險(定)|15/06/29
+新光|L|美利承盈外幣利變終壽(定)|15/06/10
+新光|L|美增富外幣利變終壽(定)|15/10/01
+新光|L|美多亞外幣利變終壽(定)*|15/05/27
+新光|L|美滿利達外幣利變終壽(定)|15/06/01
+新光|L|美祿相承外幣利變終壽(定)|15/06/10
+新光|L|美鑫傳愛外幣利變終壽(定)|15/04/01
+新光|L|美鑽享扶外幣利變終壽(定)|15/10/01
+新光|L|美鑽長扶外幣利變終壽(定)|15/08/21
+新光|L|美鑽雙新外幣利變終壽(定)|15/04/01
+新光|L|鑫富足利變終壽(定)|15/04/15
+新光|L|鑫富雙盈分紅還本終身保險(定)|15/04/27
+新光|L|鑫新金讚利變終壽(定)|15/06/29
+新光|L|鴻運相傳外幣分紅終壽(定)|15/07/10
+遠雄|A|新躉繳利變即期年金保險*|15/01/01
+遠雄|L|傳富勝達美元利變終壽|15/02/26
+遠雄|L|傳富盛匯美元利變終壽|15/07/31
+遠雄|L|傳富美加佳美元利變終壽|15/07/31
+遠雄|L|傳富美樂富美元利變終壽|15/01/16
+遠雄|L|傳富美添億美元利變終壽|15/04/10
+遠雄|L|傳富美６７美元利變終壽|15/03/13
+遠雄|L|傳富萬世達美元利變終壽|15/04/30
+遠雄|L|傳富雄保倍３利變終壽|15/09/30
+遠雄|L|美滿優固利美元養老保險|15/09/30
+遠雄|L|美滿唯固利美元養老保險|15/03/13
+遠雄|L|美滿雄固利美元養老保險|15/09/30
+遠雄|L|美滿雄福利３利率變動型增額終身壽險|15/10/06
+三商美邦|L|吉美承泰$養老保險(定)|15/01/30
+三商美邦|L|吉美永盛$利變終壽(定)|15/03/02
+三商美邦|L|吉美永達$利變終壽(定)|15/05/27
+三商美邦|L|吉美甘心$利變終身保險(定)|15/08/12
+三商美邦|L|好多利利變終壽(定)|15/01/23
+三商美邦|L|盈富美利$利變終身保險(定)|15/07/31
+三商美邦|L|盈聚美利$利變終身保險(定)|15/07/31
+三商美邦|L|祥富利利變終壽(定)|15/05/19
+三商美邦|L|美利安穩$利變終身保險(定)|15/09/01
+三商美邦|L|美利智愛$利變終身保險(定)|15/08/12
+三商美邦|L|金多鑫$養老保險(定)|15/01/23
+三商美邦|L|馥御臻寶$利變終壽(定)|15/08/12
+法巴|L|珍美鴻運外幣分紅終壽(定)|15/07/17
+法巴|L|美添鴻運外幣分紅終壽(定)|15/01/15
+法巴|L|鴻運滿億分紅終身保險(定)*|15/01/01
+法巴|L|鴻運滿滿分紅終身保險(定)|15/09/04
+法巴|L|鴻運金喜分紅終壽(定)*|15/01/01
+保誠|L|鑫意加倍養老保險(定)|15/03/31
+南山|L|優利成雙利變還本終身保險(定)|15/01/24
+南山|L|吉享保$利變終壽(定)|15/02/07
+南山|L|增多鑽利變終身保險(定)|15/08/01
+南山|L|御守護$利變終壽(定)|15/10/09
+南山|L|樂享百歲$利變還本終身保險(定)|15/06/19
+南山|L|美利保倍3$利變終壽(定)*|15/02/07
+南山|L|美利聚鑫$利變養老保險(定)|15/06/19
+南山|L|美利臻鑫$養老保險(定)|15/04/11
+南山|L|美利Pay$還本養老保險(定)|15/03/14
+南山|L|美好十光$養老保險(定)|15/05/23
+南山|L|美添樂退$利變還本終身保險(定)|15/02/27
+南山|L|美滿臻愛$利變終身保險(定)|15/05/09
+南山|L|金大利$利變還本終身保險(定)|15/07/04
+國泰|L|第一雙盈利變$終身保險(定)|15/09/17
+國泰|L|美智守護利變$終身保險(定)|15/01/28
+國泰|L|萬年美利利變$終身保險(定)|15/07/16
+國泰|L|萬美裕利變$終壽(定)|15/04/30
+國泰|L|鑽美鑫利變$終壽(定)|15/03/05
+國泰|L|馨美好人生利變$終身保險(定)|15/05/07
+凱基|L|傳富保倍$利變終壽(定)|15/06/25
+凱基|L|基安永富$分紅終壽(定)|15/05/25
+凱基|L|幸福圓滿利變終壽(定)|15/03/30
+凱基|L|恆給利分紅終身保險(定)*|15/08/01
+凱基|L|愛美利$分紅養老保險(定)|15/03/30
+凱基|L|旺得利利變終壽(定)|15/04/15
+凱基|L|澳利固得澳幣養老保險(定)|15/05/18
+凱基|L|盈向美好$利變終壽(定)|15/02/26
+凱基|L|紅利幸福$分紅終壽(定)|15/04/17
+凱基|L|紅利美滿$分紅終壽(定)|15/04/24
+凱基|L|紅運富御$分紅終壽(定)|15/05/01
+凱基|L|美利固優$養老保險(定)|15/08/25
+凱基|L|美利固得$養老保險(定)|15/02/12
+凱基|L|美利成臻$利變終壽(定)|15/01/23
+凱基|L|美利盈家$利變終壽(定)|15/05/01
+凱基|L|美利雙盈$利變終壽(定)|15/07/05
+凱基|L|美富增壽$利變終壽(定)|15/04/01
+凱基|L|財旺來利變終壽(定)|15/04/15
+凱基|L|金豐盛$利變終身保險(定)|15/03/09
+凱基|L|鑫享世承利變終壽(定)|15/08/30
+凱基|L|鑫富增壽利變終壽(定)|15/04/01
+臺銀|L|年年加鑫還本終身保險(定)|15/03/31
+臺銀|L|美年加鑫$養老保險(定)|15/04/20
+臺銀|L|美添旺$養老保險(定)|15/09/22
+臺銀|L|金美永傳$利變終壽(定)*|15/07/31
+臺銀|L|金美永富$利變終壽(定)|15/05/29
+臺銀|L|金馬旺利變終壽(定)|15/09/01`;
+
+const CO_FULL=c=>c==='中華郵政'?'中華郵政':c==='法巴'?'法國巴黎人壽':c==='安達'?'安達人壽':c+'人壽';
+const expand=n=>n.replace(/\$/g,'美元').replace(/利變/g,'利率變動型').replace(/終壽/g,'終身壽險').replace('(定)','（定期給付型）').replace('*','');
+const kindOf=n=>/年金/.test(n)?'年金':/分紅/.test(n)?'分紅':/養老/.test(n)?'養老':/還本/.test(n)?'還本':/增額/.test(n)?'增額':'利變終身';
+const curOf=n=>/美元|\$/.test(n)?'美元':/日圓/.test(n)?'日圓':/澳幣/.test(n)?'澳幣':/外幣/.test(n)?'外幣':'台幣';
+const LIBROWS=LIB.split('\n').map(l=>{const [c,t,n,s]=l.split('|');return {co:CO_FULL(c),t:t==='A'?'年金險':'壽險',name:expand(n),star:n.includes('*'),s:'1'+s,kind:kindOf(n),cur:curOf(n)}});
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtSales=v=>v==null?'':v.toLocaleString('zh-TW')+' 億';
+const ROWS=R.map((r,i)=>({id:i,co:r[0],name:r[1],kind:r[2],cur:r[3],rate:r[4],rm:r[5],launch:r[6],pay:r[7],sales:r[8],salesTxt:r[9],tags:r[10],note:r[11],src:r[12]}));
+
+// ---- 主表 ----
+const KINDS=['全部','利變終身','利變增額','利變還本','分紅','養老','投資型'];
+const CURS=['全部','美元','台幣','外幣','日圓','澳幣','台外幣'];
+const st={kind:'全部',cur:'全部',co:'全部',hot:false,q:'',sk:'rate',sd:-1,sel:new Set()};
+function chips(el,list,key,cb){el.innerHTML=list.map(v=>`<button class="chip" aria-pressed="${st[key]===v}" data-v="${esc(v)}">${esc(v)}</button>`).join('');el.onclick=e=>{const b=e.target.closest('.chip');if(!b)return;st[key]=b.dataset.v;el.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));cb()}}
+function tagHtml(t){const c=t==='熱銷'?'t-hot':t==='新品'?'t-new':'t-top';return `<span class="tag ${c}">${t}</span>`}
+function srcHtml(a){return a.map(n=>SRC[n-1][1]?`<a href="${SRC[n-1][1]}" target="_blank" rel="noopener" title="${esc(SRC[n-1][0])}">[${n}]</a>`:`<a title="${esc(SRC[n-1][0])}">[${n}]</a>`).join('')}
+function lkey(s){return s?s.replace(/[^\d\/]/g,'').padEnd(9,'0'):''}
+function render(){
+  let rows=ROWS.filter(r=>(st.kind==='全部'||r.kind===st.kind)&&(st.cur==='全部'||r.cur===st.cur)&&(st.co==='全部'||r.co===st.co)&&(!st.hot||r.tags.includes('熱銷')||r.tags.includes('新品'))&&(!st.q||(r.name+r.co).includes(st.q)));
+  const k=st.sk,d=st.sd;
+  rows.sort((a,b)=>{let x=a[k],y=b[k];if(k==='launch'){x=lkey(x);y=lkey(y)}
+    const ex=x==null||x==='',ey=y==null||y==='';if(ex&&ey)return 0;if(ex)return 1;if(ey)return -1;
+    return (x>y?1:x<y?-1:0)*d});
+  $('#cnt').textContent=`${rows.length} 檔商品`;
+  $('#tb').innerHTML=rows.map(r=>`<tr>
+   <td><input type="checkbox" data-id="${r.id}" ${st.sel.has(r.id)?'checked':''} aria-label="加入比較：${esc(r.name)}"></td>
+   <td><div class="pco">${esc(r.co)}</div><div class="pname">${esc(r.name)}</div><div>${r.tags.map(tagHtml).join('')}</div>${r.note?`<div class="note">${esc(r.note)}</div>`:''}</td>
+   <td class="kind">${esc(r.kind)}</td>
+   <td class="kind">${esc(r.cur)}</td>
+   <td class="r">${r.rate!=null?`<span class="rate">${r.rate.toFixed(2)}%</span><div class="pco">${esc(r.rm)}</div>`:`<span class="rate na">${r.kind==='投資型'?'無（投資型）':r.kind==='分紅'?'分紅非保證':'未公告'}</span>`}</td>
+   <td class="r">${r.sales!=null?`<span class="num">${fmtSales(r.sales)}</span><div class="pco">${esc(r.salesTxt)}</div>`:''}</td>
+   <td class="num" style="white-space:nowrap">${esc(r.launch)}</td>
+   <td style="white-space:nowrap">${esc(r.pay)}</td>
+   <td class="src">${srcHtml(r.src)}</td></tr>`).join('');
+  document.querySelectorAll('th.sort').forEach(th=>th.querySelector('.arr').textContent=th.dataset.k===st.sk?(st.sd<0?'↓':'↑'):'');
+}
+chips($('#kindChips'),KINDS,'kind',render);
+chips($('#curChips'),CURS,'cur',render);
+const cos=['全部',...[...new Set(ROWS.map(r=>r.co))].sort()];
+$('#coSel').innerHTML=cos.map(c=>`<option value="${c}">${c==='全部'?'全部公司':c}</option>`).join('');
+$('#coSel').onchange=e=>{st.co=e.target.value;render()};
+$('#hotOnly').onchange=e=>{st.hot=e.target.checked;render()};
+$('#q').oninput=e=>{st.q=e.target.value.trim();render()};
+document.querySelectorAll('th.sort').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(st.sk===k)st.sd*=-1;else{st.sk=k;st.sd=(k==='name'||k==='kind')?1:-1}render()});
+$('#tb').onchange=e=>{const c=e.target;if(!c.dataset.id)return;const id=+c.dataset.id;
+  if(c.checked){if(st.sel.size>=4){c.checked=false;$('#selNames').textContent='最多可比較 4 檔，請先取消一檔';return}st.sel.add(id)}else st.sel.delete(id);drawer()};
+function drawer(){const n=st.sel.size;$('#drawer').hidden=n===0;$('#selN').textContent=n;
+  $('#selNames').textContent=[...st.sel].map(i=>ROWS[i].name.slice(0,10)).join('、');
+  if(!$('#cmp').hidden)cmp()}
+function cmp(){const s=[...st.sel].map(i=>ROWS[i]);
+  const F=[['公司',r=>r.co],['商品',r=>`<strong>${esc(r.name)}</strong>`],['類型',r=>r.kind],['幣別',r=>r.cur],
+   ['宣告利率',r=>r.rate!=null?`<span class="rate">${r.rate.toFixed(2)}%</span>（${r.rm}）`:'—'],
+   ['銷售實績',r=>r.sales!=null?`${fmtSales(r.sales)}（${esc(r.salesTxt)}）`:'—'],
+   ['銷售起日',r=>r.launch||'—'],['繳費',r=>r.pay||'—'],['重點',r=>esc(r.note)||'—'],['標籤',r=>r.tags.map(tagHtml).join('')||'—'],['來源',r=>`<span class="src">${srcHtml(r.src)}</span>`]];
+  $('#cmp').innerHTML=`<table><tbody>${F.map(([l,f])=>`<tr><th>${l}</th>${s.map(r=>`<td>${f(r)}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
+$('#cmpBtn').onclick=()=>{const c=$('#cmp');c.hidden=!c.hidden;$('#cmpBtn').textContent=c.hidden?'並排比較':'收合';if(!c.hidden)cmp()};
+$('#clrBtn').onclick=()=>{st.sel.clear();$('#cmp').hidden=true;$('#cmpBtn').textContent='並排比較';drawer();render()};
+render();
+
+// ---- 商品庫 ----
+const ls={kind:'全部',cur:'全部',co:'全部',since:'115/01/01',q:''};
+function lchips(el,list,key){el.innerHTML=list.map(v=>`<button class="chip" aria-pressed="${ls[key]===v}" data-v="${v}">${v}</button>`).join('');el.onclick=e=>{const b=e.target.closest('.chip');if(!b)return;ls[key]=b.dataset.v;el.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));lrender()}}
+lchips($('#libKind'),['全部','利變終身','增額','還本','分紅','養老','年金'],'kind');
+lchips($('#libCur'),['全部','美元','台幣','外幣','日圓','澳幣'],'cur');
+const lcos=['全部',...[...new Set(LIBROWS.map(r=>r.co))].sort()];
+$('#libCo').innerHTML=lcos.map(c=>`<option value="${c}">${c==='全部'?'全部公司':c}</option>`).join('');
+$('#libCo').onchange=e=>{ls.co=e.target.value;lrender()};
+$('#libSince').onchange=e=>{ls.since=e.target.value;lrender()};
+$('#libQ').oninput=e=>{ls.q=e.target.value.trim();lrender()};
+function lrender(){const rows=LIBROWS.filter(r=>r.s>=ls.since&&(ls.kind==='全部'||r.kind===ls.kind)&&(ls.cur==='全部'||r.cur===ls.cur)&&(ls.co==='全部'||r.co===ls.co)&&(!ls.q||(r.name+r.co).includes(ls.q))).sort((a,b)=>a.s<b.s?1:a.s>b.s?-1:0);
+  $('#libCnt').textContent=`${rows.length} 檔`;
+  $('#libTb').innerHTML=rows.map(r=>`<tr><td class="num" style="white-space:nowrap">${r.s}${r.star?'*':''}</td><td style="white-space:nowrap">${esc(r.co)}</td><td class="pname">${esc(r.name)}${!r.star&&r.s>='115/09/01'?' <span class="tag t-new">新品</span>':''}</td><td class="kind">${r.kind}</td><td class="kind">${r.cur}</td><td class="kind">${r.t}</td></tr>`).join('')}
+lrender();
+
+// ---- 利率圖 ----
+const RATE={usd:[['台灣',4.42],['南山',4.40],['新光',4.40],['合庫',4.38],['第一金',4.35],['凱基',4.35],['全球',4.35],['元大',4.35],['宏泰',4.35],['三商美邦',4.35],['臺銀',4.35],['富邦',4.35],['國泰',4.35],['遠雄',4.35],['友邦',4.35],['安聯',4.30],['安達',4.25]],
+ twd:[['安聯',2.90],['第一金',2.85],['凱基',2.78],['南山',2.78],['台灣',2.75],['合庫',2.75],['全球',2.75],['元大',2.75],['宏泰',2.75],['遠雄',2.75],['新光',2.72],['國泰',2.55]]};
+let rc='usd';
+function drawRate(){const d=RATE[rc],lo=rc==='usd'?4.20:2.50,hi=rc==='usd'?4.45:2.95,step=rc==='usd'?.05:.1,mx=Math.max(...d.map(x=>x[1]));
+  const pos=v=>((v-lo)/(hi-lo)*100).toFixed(2)+'%';const ticks=[];for(let v=lo;v<=hi+1e-9;v+=step)ticks.push(v);
+  $('#dots').innerHTML=d.map(([c,v])=>`<div class="dot-row"><span class="co">${c}</span><div class="track"><span class="dot ${v===mx?'max':''}" style="left:${pos(v)}"></span></div><span class="num" style="text-align:right">${v.toFixed(2)}%</span></div>`).join('')+
+   `<div class="axis"><span></span><div class="ticks">${ticks.map(v=>`<span style="left:${pos(v)}">${v.toFixed(2)}</span>`).join('')}</div><span></span></div>`;
+  $('#rateNote').textContent=rc==='usd'?'美元保單｜2026年10–11月':'台幣保單｜2026年10月';}
+$('#rateCur').innerHTML=`<button class="chip" aria-pressed="true" data-v="usd">美元</button><button class="chip" aria-pressed="false" data-v="twd">台幣</button>`;
+$('#rateCur').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;rc=b.dataset.v;$('#rateCur').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));drawRate()};
+drawRate();
+
+// ---- 分頁與來源 ----
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>{x.setAttribute('aria-selected',x===t);$('#'+x.dataset.p).hidden=x!==t})});
+$('#srcList').innerHTML=SRC.map(([t,u])=>`<li>${u?`<a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>`:esc(t)}</li>`).join('');
+</script>
+
+</body></html>
